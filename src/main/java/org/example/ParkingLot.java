@@ -5,56 +5,53 @@ import java.util.List;
 
 public class ParkingLot {
 
-    private final List<Parkable> parkableObjects;
+    private final List<Parkable> parkableCars;
+    private ParkingLotFullListeners fullListeners;
     private final int capacity;
 
     public ParkingLot(int capacity) {
 
-        parkableObjects = new ArrayList<>();
-        this.capacity=capacity;
+        parkableCars = new ArrayList<>();
+        this.capacity = capacity;
     }
 
-    public void parkObject(Parkable parkableObject) throws ParkingException {
+    public void setFullListeners(ParkingLotFullListeners fullListeners) {
+        this.fullListeners = fullListeners;
+    }
 
-//        if(isCarParked(car)){
-//            return false;
-//        }
-//
-//        if(slots.size()<availableSlots){
-//            slots.add(car);
-//            availableSlots--;
-//            return true;
-//        }
-//        return false;
+    public void parkObject(Parkable parkableCar) throws ParkingException {
 
-        if(parkableObjects.size() >= capacity){
+        if(parkableCars.size() > capacity){
             throw new ParkingException("The parking lot is full");
         }
 
-        if(parkableObjects.contains(parkableObject)){
+        if(parkableCars.contains(parkableCar)){
             throw  new ParkingException("Car are already parked");
         }
 
-        parkableObjects.add(parkableObject);
+        parkableCars.add(parkableCar);
 
+        if(parkableCars.size()==capacity){
+            fullListeners.onParkingLotFull();
+        }
     }
 
     public boolean isObjectParked(Parkable parkableObject) {
-        return parkableObjects.contains(parkableObject);
+        return parkableCars.contains(parkableObject);
     }
 
 
-    public void unparkObject(Parkable parkableObject) throws ParkingException{
+    public void unparkObject(Parkable parkableCar) throws ParkingException{
 
-        if (!parkableObjects.contains(parkableObject)) {
+        if (!parkableCars.contains(parkableCar)) {
             throw new ParkingException("Car is not parked in the parking lot");
         }
-        parkableObjects.remove(parkableObject);
+        parkableCars.remove(parkableCar);
     }
     @Override
     public String toString() {
         return "ParkingLot{" +
-                "slots=" + parkableObjects +
+                "slots=" + parkableCars +
                 ", availableSlots=" + capacity +
                 '}';
     }
