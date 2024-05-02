@@ -19,15 +19,26 @@ public class ParkingLotTest {
 
     @Test
     void shouldBeAbleToParkCarInEmptyLot(){
-        assertTrue(parkingLot.parkCar(car));
+        assertTrue(parkingLot.park(car));
     }
 
     @Test
     void shouldNotBeAbleToParkCarInEmptyLot(){
         for (int i = 0; i<10; i++){
-            parkingLot.parkCar(new Car("Car" + i));
+            parkingLot.park(new Car("Car" + i));
         }
 
-        assertFalse(parkingLot.parkCar(car));
+        assertFalse(parkingLot.park(car));
+    }
+
+    @Test
+    void shouldReturnTrueIfACarIsParked(){
+        assertTrue(parkingLot.park(car));
+    }
+
+    @Test
+    void shouldReturnFalseIfACarIsReParked(){
+        parkingLot.park(car);
+        assertFalse(parkingLot.park(car));
     }
 }
