@@ -79,7 +79,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    void shouldThrowExceptionIfTheObjectIsNotParked() throws ParkingException {
+    void shouldThrowExceptionIfTheObjectIsNotParked() {
         Parkable parkedObject = new Parkable() {
             @Override
             public String toString() {
@@ -87,8 +87,6 @@ public class ParkingLotTest {
             }
         };
 
-     assertThrows(ParkingException.class, ()-> {
-            parkingLot.unparkObject(parkedObject);
-        });
+     assertThrows(ParkingException.class, ()-> parkingLot.unparkObject(parkedObject));
     }
 }

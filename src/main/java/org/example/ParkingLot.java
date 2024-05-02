@@ -6,7 +6,7 @@ import java.util.List;
 public class ParkingLot {
 
     private final List<Parkable> parkableObjects;
-    private int capacity;
+    private final int capacity;
 
     public ParkingLot(int capacity) {
 
@@ -39,7 +39,7 @@ public class ParkingLot {
 
     }
 
-    public boolean isObjectParked(Parkable parkableObject) throws ParkingException{
+    public boolean isObjectParked(Parkable parkableObject) {
         return parkableObjects.contains(parkableObject);
     }
 
