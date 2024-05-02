@@ -5,39 +5,57 @@ import java.util.List;
 
 public class ParkingLot {
 
-    private final List<Car> slots;
-    private int availableSlots;
+    private final List<Parkable> parkableObjects;
+    private int capacity;
 
     public ParkingLot(int capacity) {
 
-        slots = new ArrayList<>();
-        this.availableSlots=capacity;
+        parkableObjects = new ArrayList<>();
+        this.capacity=capacity;
     }
 
-    public boolean park(Car car) {
+    public void parkObject(Parkable parkableObject) throws ParkingException {
 
-        //check if the car is already parked
-        if(isCarParked(car)){
-            return false;
+//        if(isCarParked(car)){
+//            return false;
+//        }
+//
+//        if(slots.size()<availableSlots){
+//            slots.add(car);
+//            availableSlots--;
+//            return true;
+//        }
+//        return false;
+
+        if(parkableObjects.size() >= capacity){
+            throw new ParkingException("The parking lot is full");
         }
 
-        if(slots.size()<availableSlots){
-            slots.add(car);
-            availableSlots--;
-            return true;
+        if(parkableObjects.contains(parkableObject)){
+            throw  new ParkingException("Car are already parked");
         }
-        return false;
+
+        parkableObjects.add(parkableObject);
+
     }
 
-    public boolean isCarParked(Car car) {
-        return slots.contains(car);
+    public boolean isObjectParked(Parkable parkableObject) throws ParkingException{
+        return parkableObjects.contains(parkableObject);
     }
 
+
+    public void unparkObject(Parkable parkableObject) throws ParkingException{
+
+        if (!parkableObjects.contains(parkableObject)) {
+            throw new ParkingException("Car is not parked in the parking lot");
+        }
+        parkableObjects.remove(parkableObject);
+    }
     @Override
     public String toString() {
         return "ParkingLot{" +
-                "slots=" + slots +
-                ", availableSlots=" + availableSlots +
+                "slots=" + parkableObjects +
+                ", availableSlots=" + capacity +
                 '}';
     }
 }
