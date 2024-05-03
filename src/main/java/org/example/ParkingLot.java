@@ -6,19 +6,18 @@ import java.util.List;
 public class ParkingLot {
 
     private final List<Parkable> parkableCars;
-    private ParkingLotFullListeners fullListeners;
+    private List<ParkingLotFullListeners> listeners;
     private final int capacity;
 
     public ParkingLot(int capacity) {
-
         parkableCars = new ArrayList<>();
         this.capacity = capacity;
+        listeners = new ArrayList<>();
     }
 
-    public void setFullListeners(ParkingLotFullListeners fullListeners) {
-        this.fullListeners = fullListeners;
+    public void addListeners(ParkingLotFullListeners parkingLotFullListeners){
+        listeners.add(parkingLotFullListeners);
     }
-
     public void parkObject(Parkable parkableCar) throws ParkingException {
 
         if(parkableCars.size() > capacity){
@@ -32,7 +31,13 @@ public class ParkingLot {
         parkableCars.add(parkableCar);
 
         if(parkableCars.size()==capacity){
-            fullListeners.onParkingLotFull();
+            notifyAllResponsibleEntity();
+        }
+    }
+
+    private void notifyAllResponsibleEntity() {
+        for(ParkingLotFullListeners listener: listeners){
+            listener.notifyEntitiesOnParkingLotFull();
         }
     }
 

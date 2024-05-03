@@ -5,8 +5,12 @@ import org.example.ParkingLot;
 import org.example.ParkingLotFullListeners;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class ParkingLotTest {
 
@@ -14,10 +18,19 @@ public class ParkingLotTest {
 
     private boolean isFullNotified = false;
 
+    @Mock
+    private ParkingLotFullListeners parkingLotOwner;
+
+    @Mock
+    private ParkingLotFullListeners trafficCop;
+
 
     @BeforeEach
     void setUp(){
-        parkingLot = new ParkingLot(5);
+        MockitoAnnotations.openMocks(this);
+        parkingLot = new ParkingLot(2);
+        parkingLot.addListeners(parkingLotOwner);
+        parkingLot.addListeners(trafficCop);
     }
 
     @Test
@@ -90,15 +103,13 @@ public class ParkingLotTest {
 
     @Test
     public void shouldNotifyOwnerWhenParkingLotIsFull() throws ParkingException {
+        Parkable parkedCar1 = new Parkable() {};
+        Parkable parkedCar2 = new Parkable() {};
 
-        parkingLot = new ParkingLot(1);
-        ParkingLotFullListeners listener = () -> isFullNotified =  true;
+        parkingLot.parkObject(parkedCar1);
+        parkingLot.parkObject(parkedCar2);
 
-        parkingLot.setFullListeners(listener);
-        Parkable parkedCar = new Parkable() {};
-
-        parkingLot.parkObject(parkedCar);
-
-        assertTrue(isFullNotified);
+        verify(parkingLotOwner).notifyEntitiesOnParkingLotFull();
+        verify(trafficCop).notifyEntitiesOnParkingLotFull();
     }
 }
