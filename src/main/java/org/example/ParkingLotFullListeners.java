@@ -1,5 +1,6 @@
 package org.example;
 
 public interface ParkingLotFullListeners {
-    void notifyEntitiesOnParkingLotFull();
+    void notifyEntitiesOnParkingLotFull(String message);
+    void notifyEntitiesWhenAParkingLotIsAvailable(String message);
 }

@@ -7,6 +7,9 @@ public class ParkingLot {
 
     private final List<Parkable> parkableCars;
     private final List<ParkingLotFullListeners> listeners;
+
+    private boolean isFull = false;
+
     private final int capacity;
 
     public ParkingLot(int capacity) {
@@ -31,13 +34,20 @@ public class ParkingLot {
         parkableCars.add(parkableCar);
 
         if(parkableCars.size()==capacity){
+            isFull=true;
             notifyAllResponsibleEntity();
         }
     }
 
     private void notifyAllResponsibleEntity() {
         for(ParkingLotFullListeners listener: listeners){
-            listener.notifyEntitiesOnParkingLotFull();
+            listener.notifyEntitiesOnParkingLotFull("Parking lot is full");
+        }
+    }
+
+    private void notifyAllResponsibleEntityWhenLotBecomeAvailable() {
+        for(ParkingLotFullListeners listener: listeners){
+            listener.notifyEntitiesWhenAParkingLotIsAvailable("A parking lot is available");
         }
     }
 
@@ -48,10 +58,17 @@ public class ParkingLot {
 
     public void unparkObject(Parkable parkableCar) throws ParkingException{
 
-        if (!parkableCars.contains(parkableCar)) {
+        if(parkableCars.contains(parkableCar)){
+            parkableCars.remove(parkableCar);
+            if(isFull && parkableCars.size() < capacity){
+                isFull=false;
+                    notifyAllResponsibleEntityWhenLotBecomeAvailable();
+            }
+        } else{
             throw new ParkingException("Car is not parked in the parking lot");
         }
-        parkableCars.remove(parkableCar);
+
+
     }
     @Override
     public String toString() {

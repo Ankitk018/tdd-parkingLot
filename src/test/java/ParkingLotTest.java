@@ -28,8 +28,7 @@ public class ParkingLotTest {
     void setUp(){
         MockitoAnnotations.openMocks(this);
         parkingLot = new ParkingLot(2);
-        parkingLot.addListeners(parkingLotOwner);
-        parkingLot.addListeners(trafficCop);
+
     }
 
     @Test
@@ -101,14 +100,32 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void shouldNotifyOwnerWhenParkingLotIsFull() throws ParkingException {
+    public void shouldNotifyOwnerAndTrafficCopWhenParkingLotIsFull() throws ParkingException {
+        parkingLot.addListeners(parkingLotOwner);
+        parkingLot.addListeners(trafficCop);
         Parkable parkedCar1 = new Parkable() {};
         Parkable parkedCar2 = new Parkable() {};
 
         parkingLot.parkObject(parkedCar1);
         parkingLot.parkObject(parkedCar2);
 
-        verify(parkingLotOwner).notifyEntitiesOnParkingLotFull();
-        verify(trafficCop).notifyEntitiesOnParkingLotFull();
+        verify(parkingLotOwner).notifyEntitiesOnParkingLotFull("Parking lot is full");
+        verify(trafficCop).notifyEntitiesOnParkingLotFull("Parking lot is full");
+    }
+
+    @Test
+    public void shouldNotifyOwnerAndTrafficCopWhenACarisUnparkedFromParkingLot() throws ParkingException {
+        parkingLot.addListeners(parkingLotOwner);
+        parkingLot.addListeners(trafficCop);
+        Parkable parkedCar1 = new Parkable() {};
+        Parkable parkedCar2 = new Parkable() {};
+
+        parkingLot.parkObject(parkedCar1);
+        parkingLot.parkObject(parkedCar2);
+
+        parkingLot.unparkObject(parkedCar1);
+
+        verify(parkingLotOwner).notifyEntitiesWhenAParkingLotIsAvailable("A parking lot is available now");
+        verify(trafficCop).notifyEntitiesWhenAParkingLotIsAvailable("A parking lot is available now");
     }
 }
