@@ -6,7 +6,6 @@ import org.example.ParkingLotFullListeners;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +15,7 @@ public class ParkingLotTest {
 
     private ParkingLot parkingLot;
 
-    private boolean isFullNotified = false;
+//    private boolean isFullNotified = false;
 
     @Mock
     private ParkingLotFullListeners parkingLotOwner;
