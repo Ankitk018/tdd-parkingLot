@@ -6,7 +6,7 @@ import java.util.List;
 public class ParkingLot {
 
     private final List<Parkable> parkableCars;
-    private final List<ParkingLotFullListeners> listeners;
+    private final List<ParkingLotListeners> listeners;
 
     private boolean isFull = false;
 
@@ -18,7 +18,7 @@ public class ParkingLot {
         listeners = new ArrayList<>();
     }
 
-    public void addListeners(ParkingLotFullListeners parkingLotFullListeners){
+    public void addListeners(ParkingLotListeners parkingLotFullListeners){
         listeners.add(parkingLotFullListeners);
     }
     public void parkObject(Parkable parkableCar) throws ParkingException {
@@ -40,13 +40,13 @@ public class ParkingLot {
     }
 
     private void notifyAllResponsibleEntity() {
-        for(ParkingLotFullListeners listener: listeners){
+        for(ParkingLotListeners listener: listeners){
             listener.notifyEntitiesOnParkingLotFull("Parking lot is full");
         }
     }
 
     private void notifyAllResponsibleEntityWhenLotBecomeAvailable() {
-        for(ParkingLotFullListeners listener: listeners){
+        for(ParkingLotListeners listener: listeners){
             listener.notifyEntitiesWhenAParkingLotIsAvailable("A parking lot is available");
         }
     }
