@@ -2,7 +2,7 @@
 import org.example.Parkable;
 import org.example.ParkingException;
 import org.example.ParkingLot;
-import org.example.ParkingLotFullListeners;
+import org.example.ParkingLotListeners;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,16 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ParkingLotTest {
-
     private ParkingLot parkingLot;
-
-//    private boolean isFullNotified = false;
-
     @Mock
-    private ParkingLotFullListeners parkingLotOwner;
-
+    private ParkingLotListeners parkingLotOwner;
     @Mock
-    private ParkingLotFullListeners trafficCop;
+    private ParkingLotListeners trafficCop;
 
 
     @BeforeEach

@@ -6,7 +6,7 @@ import java.util.List;
 public class ParkingLot {
 
     private final List<Parkable> parkableCars;
-    private final List<ParkingLotFullListeners> listeners;
+    private final List<ParkingLotListeners> listeners;
 
     private boolean isFull = false;
 
@@ -18,8 +18,8 @@ public class ParkingLot {
         listeners = new ArrayList<>();
     }
 
-    public void addListeners(ParkingLotFullListeners parkingLotFullListeners){
-        listeners.add(parkingLotFullListeners);
+    public void addListeners(ParkingLotListeners parkingLotListeners){
+        listeners.add(parkingLotListeners);
     }
     public void parkObject(Parkable parkableCar) throws ParkingException {
 
@@ -40,13 +40,13 @@ public class ParkingLot {
     }
 
     private void notifyAllResponsibleEntity() {
-        for(ParkingLotFullListeners listener: listeners){
+        for(ParkingLotListeners listener: listeners){
             listener.notifyEntitiesOnParkingLotFull("Parking lot is full");
         }
     }
 
     private void notifyAllResponsibleEntityWhenLotBecomeAvailable() {
-        for(ParkingLotFullListeners listener: listeners){
+        for(ParkingLotListeners listener: listeners){
             listener.notifyEntitiesWhenAParkingLotIsAvailable("A parking lot is available");
         }
     }
@@ -54,7 +54,6 @@ public class ParkingLot {
     public boolean isObjectParked(Parkable parkableObject) {
         return parkableCars.contains(parkableObject);
     }
-
 
     public void unparkObject(Parkable parkableCar) throws ParkingException{
 
@@ -67,9 +66,8 @@ public class ParkingLot {
         } else{
             throw new ParkingException("Car is not parked in the parking lot");
         }
-
-
     }
+
     @Override
     public String toString() {
         return "ParkingLot{" +
